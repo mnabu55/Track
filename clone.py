@@ -46,7 +46,7 @@ def trainModelAndSave(model, inputs, outputs, epochs, batch_size):
     
     X_train, X_valid, y_train, y_valid = train_test_split(inputs, outputs, test_size=0.2, shuffle=True)
     #Setting model
-    model.compile(loss='mean_squared_error', optimizer=Adam(lr=1.0e-4))
+    model.compile(loss='mean_squared_error', optimizer=Adam(lr=1.0e-3))
     #Learning model
     model.fit(X_train, y_train, batch_size=batch_size, nb_epoch=epochs, verbose=1, validation_data=(X_valid, y_valid))
     #Saving model
@@ -81,12 +81,20 @@ def nvidia_model():
     model.add(Conv2D(48,5,5, subsample=(2,2), activation='elu'))
     model.add(Conv2D(64,3,3, activation='elu'))
     model.add(Conv2D(64,3,3, activation='elu'))
+    
     model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Flatten())
     model.add(Dropout(0.5))
+    model.add(Flatten())
+    
     model.add(Dense(100, activation='elu'))
+    model.add(Dropout(0.5))
+
     model.add(Dense(50, activation='elu'))
+    model.add(Dropout(0.5))
+
     model.add(Dense(10, activation='elu'))
+    model.add(Dropout(0.5))
+    
     model.add(Dense(1))
     return model
 
